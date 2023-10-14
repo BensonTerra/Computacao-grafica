@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas Flags</title>
+  <style>
+    canvas {
+      border: 1px solid #D3D3D3 ;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <h2><u>Flag of Germany</u></h2>
+  <canvas id="flag-germany" width="150px" height="75px"></canvas>
+
+  <h2><u>Flag of Russia</u></h2>
+  <canvas id="flag-Russia" width="150px" height="75px" ></canvas>
+
+  <h2><u>Flag of sweden</u></h2>
+  <canvas id="flag-sweden" width="160px" height="100px"></canvas>
+
+  <h2><u>Flag of switzerland</u></h2>
+  <canvas id="flag-switzerland" width="170px" height="160px" ></canvas>
+
+  <h2><u>Flag of france</u></h2>
+  <canvas id="flag-france" width="150px" height="100px" ></canvas>
+
+  <script>
+    const canvas1 = document.querySelector('#flag-germany'); 
+    const ctx1 = canvas1.getContext('2d');
+    //TODO
+    ctx1.fillStyle = 'black';
+    ctx1.fillRect(0, 0, canvas1.width, canvas1.height/3);
+    ctx1.fillStyle = 'red';
+    ctx1.fillRect(0, 25, canvas1.width, canvas1.height/3);
+    ctx1.fillStyle = 'yellow';
+    ctx1.fillRect(0, 50, canvas1.width, canvas1.height/3);
+
+    const canvas2 = document.querySelector('#flag-Russia');
+    const ctx2 = canvas2.getContext('2d');
+    //TODO
+    ctx2.fillStyle = 'white';
+    ctx2.fillRect(0, 0, canvas2.width, canvas2.height/3);
+    ctx2.fillStyle = 'blue';
+    ctx2.fillRect(0, 25, canvas2.width, canvas2.height/3);
+    ctx2.fillStyle = 'red';
+    ctx2.fillRect(0, 50, canvas2.width, canvas2.height/3);
+
+    const canvas3 = document.querySelector('#flag-sweden');
+    const ctx3 = canvas3.getContext('2d');
+    //TODO
+    ctx3.fillStyle = 'blue'
+    ctx3.fillRect(0, 0, canvas3.width, canvas3.height)
+    ctx3.fillStyle = 'yellow' 
+    ctx3.fillRect(0,40, canvas3.width, canvas3.height/5)
+    ctx3.fillStyle = 'yellow' 
+    ctx3.fillRect(50,0, canvas3.width/8, canvas3.height)
+
+    const canvas4 = document.querySelector('#flag-switzerland');
+    const ctx4 = canvas4.getContext('2d');
+    //TODO
+    ctx4.fillStyle = 'red' 
+    ctx4.fillRect(0, 0, canvas4.width, canvas4.height)
+    ctx4.fillStyle = 'white' 
+    ctx4.fillRect(34,64, 34*3 , canvas4.height/5)
+    ctx4.fillStyle = 'white' 
+    ctx4.fillRect(68,32, canvas4.width/5 , 32*3)
+
+    const canvas5 = document.querySelector('#flag-france');
+    const ctx5 = canvas5.getContext('2d');
+    //TODO
+    
+  </script>
+</body>
+
+</html>

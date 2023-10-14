@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PATHS & LINES</title>
+  <style>
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="button" value="EXERCISE 1" onclick="ex1()" />
+  <input type="button" value="EXERCISE 2" onclick="ex2()" />
+  <input type="button" value="EXERCISE 3" onclick="ex3()" />
+  <input type="button" value="EXERCISE 4" onclick="ex4()" />
+  <canvas id="myCanvas" width="500" height="200" style="border:solid 3px orange">
+    Your browser does not support HTML5 Canvas.
+  </canvas>
+
+  <script>
+    /** @type {HTMLCanvasElement} */
+    const canvas = document.querySelector("#myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // //CANVAS SIZE
+    // const W = canvas.width, H = canvas.height;
+
+    let op = 0
+
+    function ex1() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+
+      //TODO
+      op = 1
+      render()
+    }
+
+    function ex2() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+
+      //TODO
+      op = 2
+      render()
+    }
+
+    function ex3() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+
+      //TODO
+      op = 3
+      render()
+    }
+
+    const W = canvas.width, H = canvas.height;
+    function ex4() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+
+      //render();
+    }
+
+    function render()
+    {
+        ctx.reset()
+        if(op == 1)
+        {
+            ctx.beginPath()
+            ctx.moveTo(10,10)
+            ctx.lineTo(240,10)
+            ctx.lineTo(240,190)
+            ctx.lineTo(10,190)
+            ctx.lineTo(10,10)
+            ctx.fill()
+            ctx.closePath()
+
+            ctx.beginPath()
+            ctx.moveTo(245,10)
+            ctx.lineTo(485,10)
+            ctx.lineTo(485,190)
+            ctx.lineTo(245,190)
+            ctx.lineTo(245,10)
+            ctx.stroke()
+            ctx.closePath()
+        }
+        else if(op == 2)
+        {
+            ctx.beginPath()
+            ctx.moveTo(10,10)
+            for (let i = 0; i <6; i++)
+            {
+                ctx.lineTo((10+50*i),190)
+                ctx.lineTo((10+50*(i+1)),10)
+            }
+            ctx.stroke()
+            ctx.closePath()
+        }
+        else if(op == 3)
+        {
+            ctx.lineWidth = 5
+            ctx.strokeRect(200, 95,100,100)
+            ctx.beginPath()
+            ctx.moveTo(180,120)
+            ctx.lineTo(250,30)
+            ctx.lineTo(320,120)
+            ctx.stroke()
+            ctx.closePath()
+        }
+    }
+
+    /*
+    function render() {
+
+      ctx.strokeStyle = getRandomColor();
+
+      ctx.beginPath();
+      ctx.moveTo(W / 2, H / 2);
+      ctx.lineTo(W * Math.random(), H * Math.random());
+
+      ctx.stroke();
+
+      window.requestAnimationFrame(render);
+    }
+
+
+    //helper function
+    function getRandomColor() {
+      let r = Math.floor(Math.random() * 256);
+      let g = Math.floor(Math.random() * 256);
+      let b = Math.floor(Math.random() * 256);
+
+      return `rgb(${r},${g},${b})`;
+    }
+    */
+
+  </script>
+</body>
+
+</html>

@@ -12,16 +12,71 @@
     </canvas>
 
     <script>
-        //Canvas#1
+        /** @type {HTMLCanvasElement} */
         const canvas1 = document.querySelector('#c1');
         const ctx1 = canvas1.getContext("2d");
 
         var keyPressed = ""
 
-        window.addEventListener("keydown", event => 
+        let x = canvas1.width/2; let y = canvas1.height/2;
+
+        var vel = 1
+        addEventListener("keydown", function(event) 
         {
-            keyPressed += event.key
-            render()
+            console.log(event.code)
+            if (event.code === "KeyW") 
+            {
+                vy = -1 * vel
+                console.log(`x=${playerX} e y=${playerY}`)
+            }
+            else if (event.code === "KeyA")
+            {
+                vxl = -1 * vel
+                console.log(`x=${playerX} e y=${playerY}`)
+            }
+            else if (event.code === "KeyS")
+            {
+                vy = 1 * vel
+                console.log(`x=${playerX} e y=${playerY}`)
+            }
+            else if (event.code === "KeyD")
+            {
+                vxr = 1 * vel
+                console.log(`x=${playerX} e y=${playerY}`)
+            }
+            else if (event.code === "KeyR")
+            {
+                playerX = zeroXY
+                playerY = zeroXY
+                console.log(`x=${playerX} e y=${playerY}`)
+            }
+            else if (event.code === "Space")
+            {
+                playerX = playerX + (vxl + vxr) * 20
+                playerY = playerY + vy * 20
+                console.log(`x=${playerX} e y=${playerY}`)
+            }
+        })
+        
+        addEventListener("keyup", function(event) 
+        {
+            console.log(event.code)
+            if (event.code === "KeyW") 
+            {
+                vy = 0
+            }
+            else if (event.code === "KeyA")
+            {
+                vxl = 0
+            }
+            else if (event.code === "KeyS")
+            {
+                vy = 0
+            }
+            else if (event.code === "KeyD")
+            {
+                vxr = 0
+            }
         })
 
         //ANIMATION CYCLE
@@ -29,15 +84,13 @@
             //erases Canvas#1
             ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
 
-            ctx1.font = '20px Georgia';  
-            var key = keyPressed
-            ctx1.textAlign = "center"; //alinhamento horizontal ao centro
-            ctx1.textBaseline = "middle"; //alinhamento vertical ao centro
-            ctx1.fillText (key, canvas1.width/2, canvas1.height/2);
+            ctx1.arc(x, y, 10, 0, Math.PI * 2, true)
+            ctx1.fill()
 
             //new frame
             window.requestAnimationFrame(render);
         }
+        render()
     </script>
 </body>
 

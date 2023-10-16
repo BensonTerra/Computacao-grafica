@@ -35,6 +35,7 @@
 
       //TODO
       op = 1
+      ctx.reset()
       render()
     }
 
@@ -43,6 +44,7 @@
 
       //TODO
       op = 2
+      ctx.reset()
       render()
     }
 
@@ -51,19 +53,21 @@
 
       //TODO
       op = 3
+      ctx.reset()
       render()
     }
 
-    const W = canvas.width, H = canvas.height;
     function ex4() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+      //ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
 
-      //render();
+      //TODO
+      op = 4
+      ctx.reset()
+      render()
     }
 
     function render()
     {
-        ctx.reset()
         if(op == 1)
         {
             ctx.beginPath()
@@ -107,32 +111,30 @@
             ctx.stroke()
             ctx.closePath()
         }
+        else if(op == 4)
+        {
+            const W = canvas.width, H = canvas.height;
+            ctx.strokeStyle = randomColor()
+            ctx.lineWidth = 3
+            ctx.beginPath()
+            ctx.moveTo(W/2,H/2)
+            ctx.lineTo(W * Math.random(), H * Math.random());
+            ctx.stroke()
+            //ctx.closePath()
+
+            window.requestAnimationFrame(render)
+
+        }
+
     }
+    function randomColor()
+    {
+        let r = Math.floor(Math.random() * 256);
+        let g = Math.floor(Math.random() * 256);
+        let b = Math.floor(Math.random() * 256);
 
-    /*
-    function render() {
-
-      ctx.strokeStyle = getRandomColor();
-
-      ctx.beginPath();
-      ctx.moveTo(W / 2, H / 2);
-      ctx.lineTo(W * Math.random(), H * Math.random());
-
-      ctx.stroke();
-
-      window.requestAnimationFrame(render);
+        return `rgb(${r},${g},${b})`;
     }
-
-
-    //helper function
-    function getRandomColor() {
-      let r = Math.floor(Math.random() * 256);
-      let g = Math.floor(Math.random() * 256);
-      let b = Math.floor(Math.random() * 256);
-
-      return `rgb(${r},${g},${b})`;
-    }
-    */
 
   </script>
 </body>

@@ -17,11 +17,12 @@
   <input type="button" value="EXERCISE 3" onclick="ex3()" />
   <input type="button" value="EXERCISE 4" onclick="ex4()" />
 
-  <canvas id="myCanvas" width="500" height="400" style="border:solid 3px orange">
+  <canvas id="myCanvas" width="800" height="120" style="border:solid 3px orange">
     Your browser does not support HTML5 Canvas.
   </canvas>
 
   <script>
+      /** @type {HTMLCanvasElement} */
     const canvas = document.querySelector("#myCanvas");
     const ctx = canvas.getContext("2d");
 
@@ -29,9 +30,41 @@
     const W = canvas.width, H = canvas.height;
 
     function ex1() {
-      ctx.clearRect(0, 0, W, H); //erase Canvas
-
+        ctx.clearRect(0, 0, W, H); //erase Canvas
+        ctx.reset()
+        ctx.strokeStyle="black"
+        ctx.lineWidth = 2
       //TODO
+        ctx.fillStyle = "blue"
+        ctx.beginPath()
+        ctx.arc((60 + 110 * 0), 60, 50, 0, Math.PI * 2, true);
+        ctx.stroke()
+        ctx.fill()
+
+        ctx.beginPath();
+        ctx.arc((60 + 110 * 1), 60, 50, 0, Math.PI, false);
+        ctx.fill()
+        ctx.arc((60 + 110 * 1), 60, 50, 0, Math.PI * 2, true);
+        ctx.stroke()
+
+
+        ctx.beginPath();
+        ctx.arc((60 + 110 * 2), 60, 50, 0, Math.PI, true);
+        ctx.fill()
+        ctx.arc((60 + 110 * 2), 60, 50, 0, Math.PI * 2, true);
+        ctx.stroke()
+
+        ctx.beginPath();
+        ctx.arc((60 + 110 * 3), 60, 50, 3*Math.PI/5, 9*Math.PI/5, false);
+        ctx.fill()
+        ctx.arc((60 + 110 * 3), 60, 50, 0, Math.PI * 2, true);
+        ctx.stroke()
+
+        ctx.beginPath();
+        ctx.arc((60 + 110 * 4), 60, 50, 3*Math.PI/5, 9*Math.PI/5, true)
+        ctx.fill()
+        ctx.arc((60 + 110 * 4), 60, 50, 0, Math.PI * 2, true);
+        ctx.stroke()
     }
 
     function ex2() {
@@ -52,17 +85,18 @@
     let dirCornersDown = true;
 
     function ex4() {
-      ctx.clearRect(0, 0, W, H); //erase Canvas
+        ctx.clearRect(0, 0, W, H); //erase Canvas
 
-      ctx.lineWidth = 20;
-      ctx.fillStyle = "lightgrey";
-      ctx.strokeStyle = "black";
+        ctx.lineWidth = 20;
+        ctx.fillStyle = "lightgrey";
+        ctx.strokeStyle = "black";
 
-      window.setInterval(animate, 1000 / 30);
+        window.setInterval(animate, 1000 / 30);
     }
 
 
     function animate() {
+      ctx.reset();
       ctx.clearRect(0, 0, W, H); //erase Canvas
 
       ctx.beginPath();

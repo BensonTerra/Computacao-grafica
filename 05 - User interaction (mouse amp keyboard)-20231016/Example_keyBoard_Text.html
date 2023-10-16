@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>INTERACTIONS (keyboard)</title>
+</head>
+
+<body>
+    <canvas id="c1" width="300" height="250" style="border:solid 1px green">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+
+    <script>
+        //Canvas#1
+        const canvas1 = document.querySelector('#c1');
+        const ctx1 = canvas1.getContext("2d");
+
+        var keyPressed = ""
+
+        window.addEventListener("keydown", event => 
+        {
+            keyPressed += event.key
+            render()
+        })
+
+        //ANIMATION CYCLE
+        function render() {
+            //erases Canvas#1
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+
+            ctx1.font = '20px Georgia';  
+            var key = keyPressed
+            ctx1.textAlign = "center"; //alinhamento horizontal ao centro
+            ctx1.textBaseline = "middle"; //alinhamento vertical ao centro
+            ctx1.fillText (key, canvas1.width/2, canvas1.height/2);
+
+            //new frame
+            window.requestAnimationFrame(render);
+        }
+    </script>
+</body>
+
+</html>

@@ -21,27 +21,59 @@
         let x = canvas1.width/2; console.log(x)
         let y = canvas1.height/2; console.log(y)
 
-        var vel = 1
+        var vel = 1;var vxl = 0; var vxr = 0; var vy = 0
+
         window.addEventListener("keydown", function(event) 
         {
             console.log(event.code)
             if (event.code === "KeyW") 
             {
-                y += -1 * vel; console.log(y)
+                vy = -1 * vel; console.log(vy)
             }
             else if (event.code === "KeyA")
             {
-                x += -1 * vel; console.log(y)
+                vxl = -1 * vel; console.log(vxl)
             }
-            render()
+            else if (event.code === "KeyS")
+            {
+                vy = 1 * vel; console.log(vy)
+            }
+            else if (event.code === "KeyD")
+            {
+                vxr = 1 * vel; console.log(vxr)
+            }
         })
     
-
+        window.addEventListener("keyup", function(event) 
+        {
+            console.log(event.code)
+            if (event.code === "KeyW") 
+            {
+                vy = 0
+            }
+            else if (event.code === "KeyA")
+            {
+                vxl = 0
+            }
+            else if (event.code === "KeyS")
+            {
+                vy = 0
+            }
+            else if (event.code === "KeyD")
+            {
+                vxr = 0
+            }
+        })
 
         //ANIMATION CYCLE
         function render() {
             console.log("render")
             ctx1.clearRect(0, 0,canvas1.width, canvas1.height)
+
+            x += (vxr + vxl)
+            y += vy
+
+            console.log(`x: ${x}, y: ${y}`)
 
             ctx1.beginPath()
             ctx1.arc(x, y, 10, 0, Math.PI * 2, true)
@@ -49,9 +81,8 @@
             ctx1.closePath()
 
             //new frame
-            //window.requestAnimationFrame(render);
+            window.requestAnimationFrame(render);
         }
-
         render()
 
     </script>

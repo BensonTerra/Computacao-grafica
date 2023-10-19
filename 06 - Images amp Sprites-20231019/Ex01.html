@@ -11,6 +11,7 @@
     </canvas>
 
     <script>
+        /** @type {HTMLCanvasElement} */
         const canvas = document.querySelector('#myCanvas');
         const ctx = canvas.getContext("2d");
 
@@ -21,12 +22,36 @@
         //define the source (local image file)
         img.src = 'images/ESMAD_rave_1819.jpg';
 
+        let r = 0; let g = 0; let b = 0; let a = 0;
         //wait for the image load event
-        img.onload = function () {
+        
+        img.onload = function () 
+        {
+            ctx.fillStyle = `rgba(${r}, (${g}, (${b}, (${a})`
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             //draw the full image«
             ctx.drawImage(img, 0, 0);
         };
 
+        canvas.addEventListener("mousemove", event =>
+        {
+            let x = event.offsetX
+            let y = event.offsetY
+            console.log(x, y);
+            let pixel = ctx.getImageData(x, y,1,1);
+            console.log(pixel.data)
+            r = pixel.data[0];console.log(r)
+            g = pixel.data[1];console.log(g)
+            b = pixel.data[2];console.log(b)
+            a = pixel.data[3];console.log(a)
+            
+            ctx.clearRect(0, 0, canvas.width,canvas.height);
+
+            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            //draw the full image«
+            ctx.drawImage(img, (W - img.width)/2, (H - img.height)/2);
+        })
 
 
     </script>

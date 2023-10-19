@@ -11,6 +11,8 @@
 		Your browser does not support HTML5 Canvas.
 	</canvas>
 	<script>
+		/** @type {HTMLCanvasElement} */
+
 		const canvas = document.querySelector('#myCanvas');
 		const ctx = canvas.getContext("2d");
 
@@ -21,6 +23,8 @@
 		let numResourcesLoaded = 0;
 		let fps = 15;
 
+		let direction = true
+
 		loadImage("leftArm");
 		loadImage("legs");
 		loadImage("torso");
@@ -30,7 +34,7 @@
 
 		function loadImage(name) {
 			images[name] = new Image();
-			images[name].src = "images/" + name + ".png";
+			images[name].src = "images/" + name + ".png";console.log(images[name].src);
 			images[name].onload = function () {
 				resourceLoaded();	//only starts the animation after loading all 6 images			
 			};
@@ -55,9 +59,14 @@
 		function render() {
 			ctx.clearRect(0, 0, W, H); // clears the canvas 
 
-			ctx.drawImage(images["legs"], x, y);
 			
 			//TODO
+			ctx.drawImage(images["leftArm"], x + 40, y - 42);
+			ctx.drawImage(images["legs"], x, y);
+			ctx.drawImage(images["torso"], x, y - 50);
+			ctx.drawImage(images["rightArm"], x - 15, y - 42);
+			ctx.drawImage(images["head"], x - 10, y - 125);
+			ctx.drawImage(images["hair"], x - 37, y - 138);
 		}
 	</script>
 </body>

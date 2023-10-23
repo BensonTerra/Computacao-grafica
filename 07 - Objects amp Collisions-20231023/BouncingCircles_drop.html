@@ -28,18 +28,15 @@
 
         //CLASS
         class Ball {    // CONSTRUCTOR (ALTERED, now includes the velocity)
-            constructor(x, y, r, d, v, c) {
+            constructor(x, y, r, c) {
                 this.x = x;
                 this.y = y;
-                // ALTERED: horizontal displacement
-                this.dX = v * Math.cos(d);
-                // ALTERED: vertical displacement
-                this.dY = v * Math.sin(d);
-                this.c = c;
                 this.R = r;
+                this.c = c;
             }
 
             draw() {
+                console.log("drawing")
                 ctx.fillStyle = this.c;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.R, 0, 2 * Math.PI);
@@ -55,8 +52,8 @@
                 if (this.y < this.R || this.y > H - this.R)
                     this.dY = -this.dY;
 
-                this.x += this.dX;  // update horizontal position
-                this.y += this.dY;  // update vertical position
+                this.x += 0
+                this.y += 1
             }
         }
 
@@ -76,7 +73,7 @@
 
                 // ALTERED: random position (inside Canvas)
                 let xInit = radius + Math.random() * (W - 2 * radius);
-                let yInit = radius + Math.random() * (H - 2 * radius);
+                let yInit = radius + 5
 
                 //random direction
                 let direction = Math.random() * 2 * Math.PI;
@@ -85,7 +82,7 @@
                 let velocity = 1 + Math.random() * 5;
 
                 // x, y, r, d, (NEW)v, c
-                b.push(new Ball(xInit, yInit, radius, direction, velocity, color))
+                b.push(new Ball(xInit, yInit, radius, color))
             }
         }
 

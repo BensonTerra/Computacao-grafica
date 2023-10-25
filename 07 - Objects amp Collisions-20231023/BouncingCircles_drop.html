@@ -22,7 +22,8 @@
         let b = new Array(); // balls (array of objects)
 
         window.onload = () => {
-            init();//setup the array of objects
+            //init();   //setup the array of objects
+            newBall()
             render();   //start the animation
         };
 
@@ -36,7 +37,7 @@
             }
 
             draw() {
-                console.log("drawing")
+                //console.log("drawing")
                 ctx.fillStyle = this.c;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.R, 0, 2 * Math.PI);
@@ -46,17 +47,16 @@
             update() {
                 if (this.y > H - this.R)
                 {
-                    console.log(b)
-                    this.x = this.R + Math.random() * (W - 2 * this.R)
-                    this.y = 0 //this.R + Math.random() * (H - 2 * this.R)
+                    //this.x = this.R + Math.random() * (W - 2 * this.R)
+                    this.y = H - this.R //this.y = 0 //this.R + Math.random() * (H - 2 * this.R)
                 }
                 else
                 {
                     this.y += 1
                 }
+                
             }
         }
-
 
         function init() {
             //setup as many balls as wanted
@@ -73,7 +73,7 @@
 
                 // ALTERED: random position (inside Canvas)
                 let xInit = radius + Math.random() * (W - 2 * radius);
-                let yInit = radius + 5
+                let yInit = -radius - Math.random() * (30);   //radius + 5 topo do canvas
 
                 //random direction
                 let direction = Math.random() * 2 * Math.PI;
@@ -86,6 +86,24 @@
             }
         }
 
+        function newBall() {
+        // Random color
+            let R = Math.floor(Math.random() * 256);
+            let G = Math.floor(Math.random() * 256);
+            let B = Math.floor(Math.random() * 256);
+            let color = `rgb(${R},${G},${B})`;
+
+            // Random size
+            let radius = 10;
+
+            // Random position (inside Canvas)
+            let xInit = radius + Math.random() * (W - 2 * radius);
+            let yInit = -radius - Math.random() * (30);
+
+            b.push(new Ball(xInit, yInit, radius, color));
+        }
+
+
         function render() {
             //fade Canvas
             ctx.fillStyle = "rgba(255,255,255,0.25)"
@@ -95,10 +113,17 @@
                 ball.draw();
                 ball.update();
             });
+            
 
             //new frame
             window.requestAnimationFrame(render);
         }
+        
+        canvas.addEventListener("click", (event) => 
+        {
+            console.log(b)
+        })
+    
     </script>
 </body>
 

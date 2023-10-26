@@ -1,29 +1,55 @@
 const canvas = document.getElementById("canvas");
 /* objetos */
 const mapa = canvas.getContext("2d");
-const player = canvas.getContext("2d");
-const obstaculo = canvas.getContext("2d");
+//const player = canvas.getContext("2d"); APAGAR
+//const obstaculo = canvas.getContext("2d"); APAGAR
 const wall = canvas.getContext("2d");
 
+let ctx = canvas.getContext("2d");
+
 /* medidas da tela - dinâmicas */
-const boardW = canvas.width;
-const boardH = canvas.height;
+const boardW = canvas.width; console.log(boardW);
+const boardH = canvas.height; console.log(boardH);
 
-console.log(boardW);
-console.log(boardH);
-
-const pixelSizeX = boardW / 20;
-console.log(pixelSizeX);
-const pixelSizeY = boardH / 10;
-console.log(pixelSizeY);
+const pixelSizeX = boardW / 20; console.log(pixelSizeX);
+const pixelSizeY = boardH / 10; console.log(pixelSizeY);
 
 // console.log(player);
 const zeroXY = 0.01 * boardW;
-let playerX = zeroXY;
-let playerY = zeroXY;
+let X = 0;
+let Y = 0;
 let vxr = 0;
 let vxl = 0;
 let vy = 0;
+
+
+
+const player = 
+{
+    color: "red",
+    playerX: zeroXY, width:10,
+    playerY: zeroXY, height:10,
+    dxr: vxr, dxl: vxl, dy: 0,
+
+    drawPlayer()
+    {
+        ctx.fillStyle = this.color
+        ctx.beginPath();
+        ctx.fillRect(this.playerX, this.playerY, this.width, this.height)
+    },
+    update()
+    {
+        console.log(`${this.playerX}|${this.playerY}`)
+        this.playerX += (vxr + vxl)
+        this.playerY += (vy)
+    }
+}
+const obstaculo = 
+{
+    x: (boardW/2) - 10, width: 10,
+    y: (boardH/2) - 10, height: 10,
+    dxr: 0, dxl: 0, vy: 0,
+}
 
 // função build
 function build(ctx) {
@@ -90,6 +116,7 @@ function jogo ()
 {
     mapa.clearRect(0, 0, canvas.width, canvas.height)
     //mapa-1
+
     /*
     mapa.fillStyle = "#000000"
     mapa.fillRect(0, 0, canvas.width, canvas.height)
@@ -98,19 +125,15 @@ function jogo ()
     wall.lineWidth   = 0.02 * boardW;
     wall.strokeRect(0,0, boardW,boardH)
     */
+
     /*player*/
     build(mapa)
-    playerX += (vxr + vxl)
-    playerY += vy
+    X += (vxr + vxl)
+    Y += vy
     
-    player.fillStyle = "#FF0000"
-    player.fillRect(playerX, playerY, 10, 10)
-    
-    
-    /*obstaculo de teste*/
-    obstaculo.fillStyle = "#ffff00"
-    player.fillRect((boardW/2) - 10,(boardH/2) - 10, 10, 10)
+    player.drawPlayer();player.update()
     
     requestAnimationFrame(jogo)
 }
 jogo()
+

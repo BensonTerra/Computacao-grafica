@@ -39,7 +39,10 @@ const player =
     },
     update()
     {
+<<<<<<< HEAD
         //console.log(`${this.playerX}|${this.playerY}`)
+=======
+>>>>>>> cf2e345b39afade5301e898ccee8bcb15c2ffe7c
         this.playerX += (vxr + vxl)
         this.playerY += (vy)
     }

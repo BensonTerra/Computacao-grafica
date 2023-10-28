@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="500" height="500" style="border:solid 2px black">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+
+    <script src="../jogo2D/input.js"></script>
+    <script>
+        // GLOBALS
+        const canvas = document.querySelector('#myCanvas');
+        const ctx = canvas.getContext("2d");
+
+        const W = canvas.width, H = canvas.height;
+        let box = new Array(); // balls (array of objects)
+        let obj = new Array();
+
+
+        window.onload = () => {
+            init();   //setup the array of objects
+            render();   //start the animation
+        };
+
+        let vxr = 0;
+        let vxl = 0;
+        let vy = 0;
+
+        //CLASS
+        class Box {    // CONSTRUCTOR (ALTERED, now includes the velocity)
+            constructor(x, y, l, w, c) {
+                this.x = x;
+                this.y = y;
+                this.l = l;
+                this.w = w;
+                this.c = c;
+            }
+
+            draw() {
+                //console.log("drawing")
+                ctx.fillStyle = this.c;
+                ctx.beginPath();
+                ctx.fillRect(this.x, this.y, this.l, this.w)
+                ctx.fill();
+            }
+
+            checkCollisionWithObject() {
+                if (
+                    this.x + this.l > obj[0].x &&    // Não à esquerda do objeto
+                    this.x < obj[0].x + obj[0].l &&  // Não à direita do objeto
+                    this.y + this.w > obj[0].y &&    // Não acima do objeto
+                    this.y < obj[0].y + obj[0].w     // Não abaixo do objeto
+                ) {
+                    
+                    const left = Math.abs(this.x + this.l - obj[0].x);
+                    const right = Math.abs(this.x - (obj[0].x + obj[0].l));
+                    const top = Math.abs(this.y + this.w - obj[0].y);
+                    const bottom = Math.abs(this.y - (obj[0].y + obj[0].w));
+
+                    const minOverlap = Math.min(left, right, top, bottom);
+
+                    if (minOverlap === left) {
+                        return "left";
+                    } else if (minOverlap === right) {
+                        return "right";
+                    } else if (minOverlap === top) {
+                        return "top";
+                    } else if (minOverlap === bottom) {
+                        return "bottom";
+                    }
+                }
+                    this.x += (vxr + vxl)
+                    this.y += (vy)
+            }
+
+
+            update() {
+                const collisionSide = this.checkCollisionWithObject();
+
+                if (collisionSide) {
+                    if (collisionSide === "left") {
+                        this.x += -5
+                    } else if (collisionSide === "right") {
+                        this.x += 5
+                    } else if (collisionSide === "top") {
+                        this.y += -5
+                    } else if (collisionSide === "bottom") {
+                        this.y += 5
+                    }
+                }
+            }
+        }
+
+        function init() {
+            
+            //setup as many balls as wanted
+            for (let i = 0; i < 1; i++) {
+                //random color
+                let R = Math.floor(Math.random() * 256);
+                let G = Math.floor(Math.random() * 256);
+                let B = Math.floor(Math.random() * 256);
+                let color = `rgb(${R},${G},${B})`;
+
+                let xInit = Math.random() * 100
+                let yInit = Math.random() * 100
+
+                let lenght = 50;
+                let width = 50
+
+                // x, y, r, d, (NEW)v, c
+                box.push(new Box(xInit, yInit, lenght, width, color))
+            }
+
+            let R = Math.floor(Math.random() * 256);
+            let G = Math.floor(Math.random() * 256);
+            let B = Math.floor(Math.random() * 256);
+            let color = `rgb(${R},${G},${B})`;
+
+            let xInit =  (W - 50)/2
+            let yInit = (H - 50)/2
+
+            let lenght = 50;
+            let width = 50;
+
+            obj.push(new Box(xInit, yInit, lenght, width, color))
+        }
+
+        function render() {
+            //fade Canvas
+            ctx.fillStyle = "rgba(255,255,255,0.25)"
+            ctx.fillRect(0, 0, W, H);
+            // draw & update
+            box.forEach(function (boxes) {
+                boxes.draw();
+                boxes.update()
+            });
+            obj.forEach(function (objs) {
+                objs.draw();
+            });
+
+            //new frame
+            window.requestAnimationFrame(render);
+        }
+        
+        canvas.addEventListener("click", (event) => 
+        {
+            console.log(`${box[0].x}|${box[0].y}`)
+        })
+    
+    </script>
+</body>
+
+</html>

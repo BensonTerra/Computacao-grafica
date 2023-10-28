@@ -39,7 +39,6 @@ const player =
     },
     update()
     {
-        console.log(`${this.playerX}|${this.playerY}`)
         this.playerX += (vxr + vxl)
         this.playerY += (vy)
     }

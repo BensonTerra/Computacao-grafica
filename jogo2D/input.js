@@ -1,7 +1,7 @@
 var vel = 1
 addEventListener("keydown", function(event) 
     {
-        console.log(event.code)
+        //console.log(event.code)
         if (event.code === "KeyW") 
         {
             vy = -1 * vel
@@ -24,21 +24,21 @@ addEventListener("keydown", function(event)
         }
         else if (event.code === "KeyR")
         {
-            playerX = zeroXY
-            playerY = zeroXY
+            player.playerX = zeroXY
+            player.playerY = zeroXY
             
         }
         else if (event.code === "Space")
         {
-            playerX = playerX + (vxl + vxr) * 20
-            playerY = playerY + vy * 20
+            player.playerX += (vxl + vxr) * 20
+            player.playerY += vy * 20
             
         }
     }
 )
 addEventListener("keyup", function(event) 
     {
-        console.log(event.code)
+        //console.log(event.code)
         if (event.code === "KeyW") 
         {
             vy = 0

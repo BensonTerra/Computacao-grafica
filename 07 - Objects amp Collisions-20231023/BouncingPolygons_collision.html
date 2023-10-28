@@ -29,12 +29,8 @@
             render();   //start the animation
         };
 
-        let vxr = 0;
-        let vxl = 0;
-        let vy = 0;
-
         //CLASS
-        class Box {    // CONSTRUCTOR (ALTERED, now includes the velocity)
+        class Box {
             constructor(x, y, l, w, c) {
                 this.x = x;
                 this.y = y;
@@ -118,18 +114,23 @@
                 box.push(new Box(xInit, yInit, lenght, width, color))
             }
 
-            let R = Math.floor(Math.random() * 256);
-            let G = Math.floor(Math.random() * 256);
-            let B = Math.floor(Math.random() * 256);
-            let color = `rgb(${R},${G},${B})`;
+            for (let i = 0; i < 1; i++) {
+                let R = Math.floor(Math.random() * 256);
+                let G = Math.floor(Math.random() * 256);
+                let B = Math.floor(Math.random() * 256);
+                let color = `rgb(${R},${G},${B})`;
 
-            let xInit =  (W - 50)/2
-            let yInit = (H - 50)/2
+                let lenght = 100 //W;
+                let width = 100; //H
 
-            let lenght = 50;
-            let width = 50;
+                let xInit = Math.random() * 100 + (W - lenght)/2
+                let yInit = Math.random() * 100 + (H - width)/2
 
-            obj.push(new Box(xInit, yInit, lenght, width, color))
+
+                obj.push(new Box(xInit, yInit, lenght, width, color))
+            }
+            
+
         }
 
         function render() {
@@ -149,9 +150,15 @@
             window.requestAnimationFrame(render);
         }
         
-        canvas.addEventListener("click", (event) => 
+        canvas.addEventListener("mousemove", (event) => 
         {
-            console.log(`${box[0].x}|${box[0].y}`)
+            //console.log(`${box[0].x}|${box[0].y}`)
+            //box[0].x = ((W - 50)/2) - 50;box[0].y = ((H - 50)/2) - 50;
+            let rect = canvas.getBoundingClientRect(); 
+            let x = event.clientX - rect.left - 25; 
+            let y = event.clientY - rect.top - 25;  
+            console.log(`x: ${x}\ny: ${y}`)
+            box[0].x = x; box[0].y = y
         })
     
     </script>

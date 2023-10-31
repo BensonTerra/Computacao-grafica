@@ -68,7 +68,8 @@
 
                     const minOverlap = Math.min(left, right, top, bottom);
 
-                    /* minOverLap return 
+                    /*
+                    //minOverLap return 
                     if (minOverlap === left) {
                         return "left";
                     } 
@@ -82,17 +83,19 @@
                         return "bottom";
                     }
                     */
-                
                     return true
                 }
         
                 return false;
-
+                /*
+                this.x += (vxr + vxl)
+                this.y += (vy)
+                */
             }
 
             update() 
             {
-                /*
+                
                 const collisionSide = this.checkCollisionWithObject();
 
                 if (collisionSide) {
@@ -106,13 +109,15 @@
                         this.y += 5
                     }
                 }
-                */
+                
 
                 
                 /*Detecta se a box colidiu*/
-                //console.log(this.checkCollisionWithObject())
+                console.log(this.checkCollisionWithObject())
+                
                 this.x += (vxr + vxl)
                 this.y += (vy)
+                
             
             }
         }

@@ -20,14 +20,12 @@
         const ctx = canvas.getContext("2d");
 
         const W = canvas.width, H = canvas.height;
-        let box = new Array(); // balls (array of objects)
+        let box = new Array(); // boxes (array of objects)
         let obj = new Array();
 
         let vxr = 0;
         let vxl = 0;
         let vy = 0;
-
-
 
         window.onload = () => {
             init();   //setup the array of objects
@@ -52,13 +50,16 @@
                 ctx.fill();
             }
 
-            checkCollisionWithObject() {
-                if (
+            checkCollisionWithObject() 
+            {
+                if 
+                (
                     this.x + this.l > obj[0].x &&    // Não à esquerda do objeto
                     this.x < obj[0].x + obj[0].l &&  // Não à direita do objeto
                     this.y + this.w > obj[0].y &&    // Não acima do objeto
                     this.y < obj[0].y + obj[0].w     // Não abaixo do objeto
-                ) {
+                ) 
+                {
                     
                     const left = Math.abs(this.x + this.l - obj[0].x);
                     const right = Math.abs(this.x - (obj[0].x + obj[0].l));
@@ -67,22 +68,31 @@
 
                     const minOverlap = Math.min(left, right, top, bottom);
 
+                    /* minOverLap return 
                     if (minOverlap === left) {
                         return "left";
-                    } else if (minOverlap === right) {
+                    } 
+                    else if (minOverlap === right) {
                         return "right";
-                    } else if (minOverlap === top) {
+                    } 
+                    else if (minOverlap === top) {
                         return "top";
-                    } else if (minOverlap === bottom) {
+                    } 
+                    else if (minOverlap === bottom) {
                         return "bottom";
                     }
+                    */
+                
+                    return true
                 }
-                    this.x += (vxr + vxl)
-                    this.y += (vy)
+        
+                return false;
+
             }
 
-
-            update() {
+            update() 
+            {
+                /*
                 const collisionSide = this.checkCollisionWithObject();
 
                 if (collisionSide) {
@@ -96,6 +106,14 @@
                         this.y += 5
                     }
                 }
+                */
+
+                
+                /*Detecta se a box colidiu*/
+                //console.log(this.checkCollisionWithObject())
+                this.x += (vxr + vxl)
+                this.y += (vy)
+            
             }
         }
 
@@ -162,7 +180,7 @@
             let rect = canvas.getBoundingClientRect(); 
             let x = event.clientX - rect.left - 25; 
             let y = event.clientY - rect.top - 25;  
-            console.log(`x: ${x}\ny: ${y}`)
+            //console.log(`x: ${x}\ny: ${y}`)
             box[0].x = x; box[0].y = y
         })
     

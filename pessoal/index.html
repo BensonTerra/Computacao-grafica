@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="500", height="500" style="border: 2px solid black;">
+        
+    </canvas>
+</body>
+<script>
+    canvas = document.querySelector('canvas')
+    ctx = canvas.getContext('2d')
+    let W = canvas.width; let H = canvas.height
+
+    let fixGrid = null
+
+    class gridBlock{
+        constructor(x,y, w,h) {
+            this.x = x
+            this.y = y
+
+            this.w = w
+            this.h = h
+
+            this.mouseOver = false
+        }
+
+        draw(){
+            ctx.strokeStyle = 'black'
+            ctx.fillStyle = 'cyan'
+            ctx.lineWidth = 1
+            if (this.mouseOver) ctx.fillRect(this.x,this.y, this.w,this.h)
+            ctx.strokeRect(this.x,this.y, this.w,this.h)
+        }
+
+        checkHover(e){
+            let X = e.offsetX; let Y = e.offsetY
+
+            //console.log(`Mouse: X: ${X}, Y: ${Y}`);
+            //console.log(`Square: X: ${this.x}, Y: ${this.y}`);
+
+            if (X > this.x && X < this.x + this.w && Y > this.y && Y < this.y + this.h){
+                this.mouseOver = true
+                return [this.x, this.y]
+            } else {
+                this.mouseOver = false
+                return null
+            }
+        }
+    }
+
+    class Box{
+        constructor(x,y, w,h, color) {
+            this.x = x
+            this.y = y
+
+            this.xLock = null
+            this.yLock = null
+
+            this.color = color
+
+            this.prevX = x
+            this.prevY = y
+
+            this.w = w
+            this.h = h
+
+            this.grab = false
+        }
+
+        draw(){
+            ctx.fillStyle = this.color
+            ctx.fillRect(this.x,this.y, this.w,this.h)
+        }
+
+        move(e){
+            if (this.grab){
+                this.x -= (this.prevX - e.offsetX)
+                this.y -= (this.prevY - e.offsetY)
+            }
+
+            this.prevX = e.offsetX
+            this.prevY = e.offsetY
+        }
+
+        goGrab(e){
+            let X = e.offsetX; let Y = e.offsetY
+            if (X > this.x && X < this.x + this.w && Y > this.y && Y < this.y + this.h){
+                this.grab = true
+            }
+        }
+
+        lock(){
+            if (this.xLock && this.yLock){
+                this.x = this.xLock
+                this.y = this.yLock
+                
+                this.xLock = null
+                this.yLock = null
+            }
+            
+        }
+    }
+
+    boxes = new Array()
+    boxes.push(new Box(125,400, 50,50, 'blue'))
+    boxes.push(new Box(225,400, 50,50, 'red'))
+    boxes.push(new Box(325,400, 50,50, 'green')) 
+    let squareGrids = new Array()
+
+    for (i=0; i<5; i++){
+        let line = new Array()
+        for (j=0; j<5; j++){
+            squareGrids.push(new gridBlock(125+50*i,125+50*j, 50,50))
+        }
+    }
+    
+    setInterval(() => {
+        ctx.clearRect(0,0, W,H)
+        squareGrids.forEach(square => {
+            square.draw()
+        });
+        boxes.forEach(box => {
+            box.draw()
+        });
+    }, 10);
+
+    canvas.addEventListener('mousemove', (e)=>{
+        let flag = true
+        squareGrids.forEach(square => {
+            let check = square.checkHover(e)
+            if (flag) {
+                if (check){
+                    boxes.forEach(box => {
+                        if (box.grab){
+                            box.xLock = check[0]
+                            box.yLock = check[1]
+                        }
+                    });
+                    flag = false
+                } else {
+                    boxes.forEach(box => {
+                        if (box.grab){
+                            box.xLock = null
+                            box.yLock = null
+                        }
+                    });
+                }
+            }
+            
+            console.log(check);
+        });
+        boxes.forEach(box => {
+            box.move(e)
+        });
+    })
+
+    canvas.addEventListener('mouseup', (e)=>{
+        boxes.forEach(box => {
+            box.grab = false
+            box.lock()
+        });
+    })
+
+    canvas.addEventListener('mousedown', (e)=>{
+        boxes.forEach(box => {
+            box.goGrab(e)
+        });
+    })
+</script>
+</html>

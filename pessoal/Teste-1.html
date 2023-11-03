@@ -12,6 +12,9 @@
     <canvas id="myCanvas" width="500" height="500" style="border:solid 2px black">
         Your browser does not support HTML5 Canvas.
     </canvas>
+    <div>
+        <h1 id="xyPos"></h1>
+    </div>
 
     <script src="../jogo2D/input.js"></script>
     <script>
@@ -51,14 +54,17 @@
             }
 
         }
+        
+        let xyH1 = document.getElementById("xyPos")
 
-        canvas.addEventListener("click", (event) => 
+        canvas.addEventListener("mousemove", (event) => 
         {
-            console.clear()
+            //console.clear()
             let rect = canvas.getBoundingClientRect(); 
             let x = event.clientX - rect.left; 
-            let y = event.clientY - rect.top;  
-            console.log(`x: ${x}\ny: ${y}`)
+            let y = event.clientY - rect.top;
+            xyH1.innerHTML = `X: ${x} || Y: ${y}`; 
+            //console.log(`x: ${x}\ny: ${y}`)
         })
     </script>
 </body>

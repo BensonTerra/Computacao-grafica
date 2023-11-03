@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="myCanvas" width="500" height="500" style="border:solid 2px black">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+
+    <script>
+        const canvas = document.querySelector('#myCanvas');
+        const ctx = canvas.getContext("2d");
+
+        var W = canvas.width;
+        var H = canvas.height;
+
+        const squareSize = 5;
+        var squareLine = [];
+        var squarePosAll = [];
+
+        pixelSizeX = W / squareSize;
+        pixelSizeY = H / squareSize;
+
+        for (let i = 0; i < squareSize; i++) {
+            for (let j = 0; j < squareSize; j++) {
+                const x = j * pixelSizeX;
+                const y = i * pixelSizeY;
+                const squarePos = [x, y];
+                squarePosAll.push(squarePos);
+
+                ctx.beginPath();
+                ctx.rect(x, y, pixelSizeX, pixelSizeY);
+                ctx.stroke();
+            }
+        }
+
+        const exampleBlocks = [
+            { x: 20, y: 30, width: 40, height: 40, color: 'blue', dragging: false },
+        ];
+
+        exampleBlocks.forEach((block) => {
+            ctx.fillStyle = block.color;
+            ctx.fillRect(block.x, block.y, block.width, block.height);
+
+            // Adicione event listeners para arrastar os blocos
+            canvas.addEventListener("mousedown", (event) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = event.clientX - rect.left;
+                const mouseY = event.clientY - rect.top;
+
+                if (
+                    mouseX >= block.x && mouseX <= block.x + block.width &&
+                    mouseY >= block.y && mouseY <= block.y + block.height
+                ) {
+                    block.dragging = true;
+                    block.offsetX = mouseX - block.x;
+                    block.offsetY = mouseY - block.y;
+                }
+            });
+
+            canvas.addEventListener("mousemove", (event) => {
+                if (block.dragging) {
+                    const rect = canvas.getBoundingClientRect();
+                    const mouseX = event.clientX - rect.left;
+                    const mouseY = event.clientY - rect.top;
+
+                    block.x = mouseX - block.offsetX;
+                    block.y = mouseY - block.offsetY;
+
+                    redrawCanvas();
+                }
+            });
+
+            canvas.addEventListener("mouseup", () => {
+                block.dragging = false;
+            });
+        });
+
+        function redrawCanvas() {
+            ctx.clearRect(0, 0, W, H);
+
+            for (let i = 0; i < squareSize; i++) {
+                for (let j = 0; j < squareSize; j++) {
+                    const x = j * pixelSizeX;
+                    const y = i * pixelSizeY;
+
+                    ctx.beginPath();
+                    ctx.rect(x, y, pixelSizeX, pixelSizeY);
+                    ctx.stroke();
+                }
+            }
+
+            exampleBlocks.forEach((block) => {
+                ctx.fillStyle = block.color;
+                ctx.fillRect(block.x, block.y, block.width, block.height);
+            });
+        }
+
+        canvas.addEventListener("click", (event) => {
+            console.clear();
+            let rect = canvas.getBoundingClientRect();
+            let x = event.clientX - rect.left;
+            let y = event.clientY - rect.top;
+
+            // Snap to the nearest grid position
+            const snappedX = Math.floor(x / pixelSizeX) * pixelSizeX;
+            const snappedY = Math.floor(y / pixelSizeY) * pixelSizeY;
+
+            console.log(`x: ${snappedX}\ny: ${snappedY}`);
+        });
+    </script>
+</body>
+
+</html>

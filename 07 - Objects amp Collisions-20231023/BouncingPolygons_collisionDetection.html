@@ -68,7 +68,7 @@
 
                     const minOverlap = Math.min(left, right, top, bottom);
 
-                    /*
+                    
                     //minOverLap return 
                     if (minOverlap === left) {
                         return "left";
@@ -82,15 +82,15 @@
                     else if (minOverlap === bottom) {
                         return "bottom";
                     }
-                    */
+                    
                     return true
                 }
         
-                return false;
-                /*
+                //return false;
+                
                 this.x += (vxr + vxl)
                 this.y += (vy)
-                */
+                
             }
 
             update() 
@@ -114,11 +114,10 @@
                 
                 /*Detecta se a box colidiu*/
                 console.log(this.checkCollisionWithObject())
-                
+                /*
                 this.x += (vxr + vxl)
                 this.y += (vy)
-                
-            
+                */
             }
         }
 

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width="500" height="500" style="border: 2px solid black;"></canvas>
+</body>
+<script>
+    /** @type {HTMLCanvasElement} */
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const gridSize = 9;
+    const pixelSizeX = 250 / gridSize;
+    const pixelSizeY = 250 / gridSize;
+
+    class gridBlock {
+        constructor(posX, posY, Width, Height) {
+            this.x = posX;
+            this.y = posY;
+            this.width = Width;
+            this.height = Height;
+            this.mouseOver = false;
+            this.available = false;
+        }
+
+        draw() 
+        {
+            ctx.beginPath();
+            ctx.strokeStyle = 'black';
+            ctx.fillStyle = 'red';
+            ctx.lineWidth = 1;
+            if (this.mouseOver) {
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
+        }
+
+        checkHover(mouse)
+        {
+            let x = mouse.offsetX; 
+            let y = mouse.offsetY; 
+            console.log(x, y);
+
+            if (
+                x > this.x &&
+                x < this.x + this.width &&
+                y > this.y && 
+                y < this.y + this.height
+                )
+            {
+                this.mouseOver = true
+                return [this.x, this.y]
+            } else {
+                this.mouseOver = false
+                return null
+            }
+        }
+    }
+
+    class Box{
+        constructor(x,y, w,h, color) {
+            this.x = x
+            this.y = y
+
+            this.xLock = null
+            this.yLock = null
+
+            this.color = color
+
+            this.prevX = x
+            this.prevY = y
+
+            this.w = w
+            this.h = h
+
+            this.grab = false
+        }
+
+        draw(){
+            ctx.fillStyle = this.color
+            ctx.fillRect(this.x,this.y, this.w,this.h)
+        }
+
+        move(e){
+            if (this.grab){
+                this.x -= (this.prevX - e.offsetX)
+                this.y -= (this.prevY - e.offsetY)
+            }
+
+            this.prevX = e.offsetX
+            this.prevY = e.offsetY
+        }
+
+        grabStatus(e){
+            let X = e.offsetX; let Y = e.offsetY
+            if (
+                X > this.x && 
+                X < this.x + this.w && 
+                Y > this.y && 
+                Y < this.y + this.h
+                )
+            {
+                this.grab = true
+            }
+        }
+    }
+
+    let boxes = new Array()
+    boxes.push(new Box(125,400, 50,50, 'blue'))
+    boxes.push(new Box(225,400, 50,50, 'red'))
+    boxes.push(new Box(325,400, 50,50, 'green')) 
+
+    let squareGrid = new Array();
+    for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+            squareGrid.push(new gridBlock(50 + pixelSizeX * j, 50 + pixelSizeY * i, pixelSizeX, pixelSizeY));
+        }
+    }
+
+    setInterval(() => {
+        ctx.clearRect(0, 0, W, H);
+        squareGrid.forEach(square => {
+            square.draw();
+        });
+        boxes.forEach(box => {
+            box.draw()
+        });
+    }, 1);
+
+    canvas.addEventListener('mousemove', (e)=>
+    {
+        console.clear()
+        squareGrid.forEach(square => 
+        {
+            //console.table(square)
+            square.checkHover(e)
+        })
+        boxes.forEach(box => {
+            box.move(e)
+        });
+    })
+
+    canvas.addEventListener('mousedown', (e)=>{
+        boxes.forEach(box => {
+            box.grabStatus(e)
+        });
+    })
+
+    canvas.addEventListener('mouseup', (e)=>{
+        boxes.forEach(box => {
+            box.grab = false
+            //box.lock()
+        });
+    })
+</script>
+</html>

@@ -25,20 +25,20 @@
 
         var W = canvas.width; var H = canvas.height;
         
-        const squareSize = 2
+        const gridSize = 2
         var squareLine = []
         var squarePosAll = 
         [
             
         ]
 
-        pixelSizeX = W / squareSize;//console.log(pixelSizeX)
-        pixelSizeY = H / squareSize;//console.log(pixelSizeY)
+        pixelSizeX = W / gridSize;//console.log(pixelSizeX)
+        pixelSizeY = H / gridSize;//console.log(pixelSizeY)
 
 
-        for (let i = 0; i < squareSize; i++)
+        for (let i = 0; i < gridSize; i++)
         {
-            for (let j = 0; j < squareSize; j++)
+            for (let j = 0; j < gridSize; j++)
             {
                 ctx.beginPath()
                 ctx.rect(j * pixelSizeX, i * pixelSizeY, pixelSizeX, pixelSizeY)

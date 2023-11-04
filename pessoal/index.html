@@ -94,7 +94,8 @@
         }
 
         lock(){
-            if (this.xLock && this.yLock){
+            if (this.xLock && this.yLock)
+            {
                 this.x = this.xLock
                 this.y = this.yLock
                 
@@ -130,7 +131,8 @@
 
     canvas.addEventListener('mousemove', (e)=>{
         let flag = true
-        squareGrids.forEach(square => {
+        squareGrids.forEach(square => 
+        {
             let check = square.checkHover(e)
             if (flag) {
                 if (check){

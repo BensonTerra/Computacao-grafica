@@ -15,7 +15,7 @@
     const W = canvas.width;
     const H = canvas.height;
 
-    const gridSize = 9;
+    const gridSize = 5;
     const pixelSizeX = 250 / gridSize;
     const pixelSizeY = 250 / gridSize;
 
@@ -26,14 +26,14 @@
             this.width = Width;
             this.height = Height;
             this.mouseOver = false;
-            this.available = false;
+            this.available = true;
         }
 
         draw() 
         {
             ctx.beginPath();
             ctx.strokeStyle = 'black';
-            ctx.fillStyle = 'red';
+            ctx.fillStyle = 'cyan';
             ctx.lineWidth = 1;
             if (this.mouseOver) {
                 ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -45,7 +45,7 @@
         {
             let x = mouse.offsetX; 
             let y = mouse.offsetY; 
-            console.log(x, y);
+            //console.log(x, y);
 
             if (
                 x > this.x &&
@@ -61,23 +61,36 @@
                 return null
             }
         }
+
+        changeStatus()
+        {
+            if (this.available == true)
+            {
+                this.available = false
+            }
+            else if (this.available == false)
+            {
+                this.available = true
+            }
+
+        }
     }
 
     class Box{
-        constructor(x,y, w,h, color) {
-            this.x = x
-            this.y = y
+        constructor(posX,posY, Width,Height, color) {
+            this.x = posX
+            this.y = posY
 
             this.xLock = null
             this.yLock = null
 
             this.color = color
 
-            this.prevX = x
-            this.prevY = y
+            this.prevX = posX
+            this.prevY = posY
 
-            this.w = w
-            this.h = h
+            this.w = Width
+            this.h = Height
 
             this.grab = false
         }
@@ -109,6 +122,19 @@
                 this.grab = true
             }
         }
+
+        lockStatus()
+        {
+            if (this.xLock && this.yLock)
+            {
+                this.x = this.xLock
+                this.y = this.yLock
+                
+                this.xLock = null
+                this.yLock = null
+                
+            }
+        }
     }
 
     let boxes = new Array()
@@ -135,28 +161,107 @@
 
     canvas.addEventListener('mousemove', (e)=>
     {
+        //console.clear()
+        let flag = true
+        squareGrid.forEach(square => 
+        {
+            let check = square.checkHover(e)
+            if (flag) 
+            {
+                if (check)
+                {
+                    boxes.forEach(box => 
+                    {
+                        if (box.grab)
+                        {
+                            console.log(square.available)
+                            
+                            box.xLock = check[0]; 
+                            box.yLock = check[1];
+
+
+
+                        }
+                    });
+                    flag = false
+                } 
+                else 
+                {
+                    boxes.forEach(box => 
+                    {
+                        if (box.grab)
+                        {
+                            box.xLock = null
+                            box.yLock = null
+                        }
+                    });
+                }
+            }
+            
+            //console.log(check);
+        });
+        boxes.forEach(box => {
+            box.move(e)
+        });
+
+        /*
         console.clear()
         squareGrid.forEach(square => 
         {
-            //console.table(square)
             square.checkHover(e)
         })
         boxes.forEach(box => {
             box.move(e)
         });
+        */
     })
 
     canvas.addEventListener('mousedown', (e)=>{
-        boxes.forEach(box => {
+        boxes.forEach(box => 
+        {
             box.grabStatus(e)
         });
     })
 
-    canvas.addEventListener('mouseup', (e)=>{
-        boxes.forEach(box => {
+    canvas.addEventListener('mouseup', (e)=>
+    {
+        boxes.forEach(box =>
+        {
+            if (box.grabStatus)
+            {
+                squareGrid.forEach(block => 
+                {
+                    if (block.checkHover(e) && box.grab == true)
+                    {
+                        box.lockStatus()
+                        block.changeStatus(e)
+                    }
+                })
+                box.grab = false
+            }
+        })
+
+
+        /*
+        boxes.forEach(box => 
+        {
             box.grab = false
-            //box.lock()
+            box.lockStatus()
+
         });
+        */
+    })
+
+    canvas.addEventListener("click", (e) => 
+    {
+        squareGrid.forEach(block => 
+        {
+            if(block.checkHover(e))
+            {
+                console.log(block.available)
+            }
+        })
+        
     })
 </script>
 </html>

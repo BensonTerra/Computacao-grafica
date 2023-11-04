@@ -61,8 +61,8 @@
         {
             //console.clear()
             let rect = canvas.getBoundingClientRect(); 
-            let x = event.clientX - rect.left; 
-            let y = event.clientY - rect.top;
+            let x = parseInt(event.clientX - rect.left); 
+            let y = parseInt(event.clientY - rect.top);
             xyH1.innerHTML = `X: ${x} || Y: ${y}`; 
             //console.log(`x: ${x}\ny: ${y}`)
         })

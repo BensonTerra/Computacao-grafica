@@ -9,6 +9,7 @@
     <canvas width="500", height="500" style="border: 2px solid black;">
         
     </canvas>
+    <!--<button onclick="boxes.push(new Box(10,10, 50,50, 'blue'))">ADD</button>-->
 </body>
 <script>
     canvas = document.querySelector('canvas')
@@ -107,13 +108,12 @@
     }
 
     boxes = new Array()
-    boxes.push(new Box(125,400, 50,50, 'blue'))
-    boxes.push(new Box(225,400, 50,50, 'red'))
+    boxes.push(new Box(125,400, 50,50, 'red'))
+    boxes.push(new Box(225,400, 50,50, 'blue'))
     boxes.push(new Box(325,400, 50,50, 'green')) 
     let squareGrids = new Array()
 
     for (i=0; i<5; i++){
-        let line = new Array()
         for (j=0; j<5; j++){
             squareGrids.push(new gridBlock(125+50*i,125+50*j, 50,50))
         }
@@ -163,13 +163,15 @@
     canvas.addEventListener('mouseup', (e)=>{
         boxes.forEach(box => {
             box.grab = false
-            //box.lock()
+            box.lock()
         });
     })
 
     canvas.addEventListener('mousedown', (e)=>{
         boxes.forEach(box => {
-            box.goGrab(e)
+            if (boxes.every(box => !box.grab)){
+                box.goGrab(e)
+            }
         });
     })
 </script>

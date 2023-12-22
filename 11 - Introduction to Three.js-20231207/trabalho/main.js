@@ -117,6 +117,7 @@ setInterval(() => {
     console.log(eixo2.position)
 }, 1000);
 */
+
 function render() {  
 
     controls.update();

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mover Ponto ao Longo de um Quadrado no Canvas</title>
+  <style>
+    canvas {
+      border: 1px solid #ccc;
+      float: left;
+    }
+    table {
+      margin-left: 20px;
+      font-family: Arial, sans-serif;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myCanvas" width="500" height="500"></canvas>
+  <table id="infoTable">
+    <tr>
+      <th>Posição X</th>
+      <td id="posX"></td>
+    </tr>
+    <tr>
+      <th>Posição Y</th>
+      <td id="posY"></td>
+    </tr>
+    <tr>
+      <th>dx</th>
+      <td id="dx"></td>
+    </tr>
+    <tr>
+      <th>dy</th>
+      <td id="dy"></td>
+    </tr>
+  </table>
+
+  <script>
+    function calcularCoordenadasPoligono(lados, centerX, centerY, raio) {
+      const coordenadas = [];
+      const angulo = (Math.PI * 2) / lados;
+
+      for (let i = 0; i < lados; i++) {
+        const x = centerX + raio * Math.cos(i * angulo);
+        const y = centerY + raio * Math.sin(i * angulo);
+        coordenadas.push({ x, y });
+      }
+
+      return coordenadas;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('myCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const squarePath = calcularCoordenadasPoligono(15, 250, 250, 200);
+
+      let index = 0;
+      let posX = squarePath[0].x;
+      let posY = squarePath[0].y;
+      let targetX = squarePath[0].x;
+      let targetY = squarePath[0].y;
+
+      function drawPoint(x, y) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 2;
+        for (let i = 0; i < squarePath.length - 1; i++) {
+          ctx.beginPath();
+          ctx.moveTo(squarePath[i].x, squarePath[i].y);
+          ctx.lineTo(squarePath[i + 1].x, squarePath[i + 1].y);
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.moveTo(squarePath[squarePath.length - 1].x, squarePath[squarePath.length - 1].y);
+        ctx.lineTo(squarePath[0].x, squarePath[0].y);
+        ctx.stroke();
+      }
+
+      function movePoint() {
+        const dx = targetX - posX;
+        const dy = targetY - posY;
+
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const speed = 2;
+
+        if (distance > speed) {
+          posX += (dx / distance) * speed;
+          posY += (dy / distance) * speed;
+        } else {
+          posX = targetX;
+          posY = targetY;
+          index = (index + 1) % squarePath.length;
+          targetX = squarePath[index].x;
+          targetY = squarePath[index].y;
+        }
+
+        drawPoint(posX, posY);
+
+        document.getElementById('posX').textContent = posX.toFixed(2);
+        document.getElementById('posY').textContent = posY.toFixed(2);
+        document.getElementById('dx').textContent = dx.toFixed(2);
+        document.getElementById('dy').textContent = dy.toFixed(2);
+
+        requestAnimationFrame(movePoint);
+      }
+
+      requestAnimationFrame(movePoint);
+    });
+  </script>
+</body>
+</html>

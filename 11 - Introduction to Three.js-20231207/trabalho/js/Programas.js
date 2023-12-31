@@ -13,15 +13,10 @@ const programas =
     cord: [[1.0,-2.0],[2.0,-2.0]]
 
   },
-  {
-    name: "Quadrado",
-    cord: [[2.0,-2.0],[4.0,-2.0],[4.0,2.0],[2.0,2.0]]
-
-  }
 ]
 
 function criarLista() {
-  const lista = document.querySelector('#programas');console.log(lista)
+  const lista = document.querySelector('#programas');//console.log(lista)
 
   // Limpar lista antes de adicionar os itens
   lista.innerHTML = '';
@@ -41,7 +36,7 @@ function criarLista() {
     `;
   
     const btn = prog.querySelector('.btnProg');
-    const dataProg = item.cord; console.log(dataProg);
+    const dataProg = item.cord; //console.log(dataProg);
   
     // Adiciona um event listener para cada botão
     btn.addEventListener('click', function(event) {
@@ -75,20 +70,19 @@ function loopWithDelay(i, data) {
       moveAngles(xTarget, yTarget, cord);
     }
 
-    // Verificar se o braço alcançou a posição desejada antes de prosseguir
     if (xTarget == xValue.innerHTML && zValue.innerHTML == yTarget) {
       isMoving = false;
-      // Aguardar um tempo antes de passar para a próxima iteração
+
       setTimeout(function () {
         console.log("posição alcançada")
-        addPoint(xTarget,yTarget,i,data)
+        addPoint(xTarget,yTarget,i,data,data[i])
         loopWithDelay(i + 1, data);
-      }, 500); // Ajuste o tempo de atraso aqui (em milissegundos)
-    } else {
-      // Se o braço ainda não alcançou a posição desejada, verificar novamente após um curto intervalo
+      }, 500); 
+    } 
+    else {
       setTimeout(function () {
         loopWithDelay(i, data);
-      }, 100); // Intervalo curto para verificar novamente rapidamente
+      }, 100); 
     }
   }
 }

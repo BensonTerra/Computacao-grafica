@@ -51,6 +51,8 @@ var a = 2; var b = 3
 var c = 1; var d = 3
 var r2 = 0.2
 var angleArray = []
+var allPoints = []
+window.allPoints = allPoints
 
 /*-------------------------------------------------------------------- */
 /*var len1 = 0.4 + a + 0.6 ; var len2 = r2 + d + 0.4; console.log(len1, len2);*/
@@ -204,7 +206,7 @@ var targetPosition3 = Target.getWorldPosition(targetEnd); //console.log(targetPo
 
 export default function moveAngles(xTarget, yTarget, originalPos)
 {
-    console.log("moveAngles")
+    //console.log("moveAngles")
     if(yTarget >= 0) {
         angleArray = angles(xTarget, yTarget, originalPos); //console.log("yTarget > 0: " + angleArray);
     }
@@ -226,21 +228,28 @@ function seeData(){
 }
 window.seeData = seeData
 
-export function addPoint(x,y,i,data) {
+const shape = new THREE.Shape();
+let shapePoints = []; window.shapePoints = shapePoints
+let length = null, width = null;
+
+export function addPoint(x,y,i,dataTotal,dataPartial) {
 
     
-    const geometry = new THREE.SphereGeometry( 0.2,32,16 ); 
+    const geometry = new THREE.SphereGeometry( 0.1,32,16 ); 
     const material = new THREE.MeshBasicMaterial( { color: 0xffff00 } ); 
     const point = new THREE.Mesh( geometry, material ); 
     point.position.x = x
     point.position.z = y
     point.name = `sphere`
     scene.add( point );
-    console.log(i,data.length)
-    if (i == data.length-1)
+    console.log(i,dataTotal.length)
+    shapePoints.push(dataPartial);console.log(dataPartial)
+
+    if (i == dataTotal.length-1)
     {
         console.log("home")
         countPoints()
+        shapeDesign(shapePoints)
         home()
     }
 
@@ -248,14 +257,23 @@ export function addPoint(x,y,i,data) {
 
 var targetAngle1 = 0
 var targetAngle2 = 0
+let firtPoint = null; let pointXY = null
+
+
+const extrudeSettings = {
+	steps: 1,
+	depth: 0,
+	bevelEnabled: true,
+	bevelThickness: 1,
+	bevelSize: 0,
+	bevelOffset: 0,
+	bevelSegments: 1
+};
 
 function home() {
     angleArray[0] = 0
     angleArray[1] = Math.PI
 }
-
-let allPoints = []
-window.allPoints = allPoints
 
 export function countPoints() {
     scene.traverse( function( object ) {
@@ -268,8 +286,8 @@ export function countPoints() {
                     allPoints.push(object)
                 }
                 console.log(allPoints)
-                
             }
+            
         }
     
     });
@@ -277,10 +295,42 @@ export function countPoints() {
 window.countPoints = countPoints
 
 export function reset() {
-    allPoints.forEach( element => scene.remove(element))
-    allPoints = []
+    if(allPoints.length > 0)
+    {
+        allPoints.forEach( element => scene.remove(element))
+        scene.remove(box)
+        allPoints = []
+    }
+
 }
 window.reset = reset
+
+let box = null
+function shapeDesign(arrayShape) {
+
+    if(firtPoint == null)
+    {
+        firtPoint = arrayShape[0];console.log(firtPoint)
+        let firtPointX = firtPoint[0]
+        let firtPointY = firtPoint[1]
+        shape.moveTo(firtPointX,firtPointY)
+    }
+
+    for(let i = 1; i < arrayShape.length; i++)
+    {
+        console.log(arrayShape[i])
+        pointXY = arrayShape[i]
+        shape.lineTo(pointXY[0],pointXY[1])
+    }
+
+    geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+    material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    box = new THREE.Mesh( geometry, material ) ;
+    box.rotation.x = Math.PI/2
+    box.name = "shape"
+    scene.add( box );
+}
+window.shapeDesign = shapeDesign
 
 export const xValue = document.querySelector('.x-value'); //console.log(xValue);
 export const yValue = document.querySelector('.y-value'); //console.log(yValue)

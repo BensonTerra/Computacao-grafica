@@ -1,28 +1,76 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
-    <title>trabalho</title>
+    <title>Trabalho</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            /* set margin to 0 and overflow to hidden, to use the complete page */
-            margin: 0; overflow: hidden;
+            margin: 0;
+            overflow: hidden;
+        }
+
+
+
+        
+        .view {
+            height: 80%;
         }
     </style>
     <script type="importmap">
         {
             "imports": {
-              "three": "https://unpkg.com/three/build/three.module.js",
-              "three/addons/": "https://unpkg.com/three/examples/jsm/"
+                "three": "https://unpkg.com/three/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three/examples/jsm/"
             }
-          }
+        }
     </script>
 </head>
 
 <body>
-    <!-- HTML body will hold the Output -->
-    <script type="module" src="main.js"></script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3" id="sidebar">
+                <h2>Desenhos</h2>
+                <div>
+                    <ul class="d-flex flex-column align-items-center p-0" id="programas"></ul>
+                </div>
+
+
+            </div>
+            <div class="col-md-9 m-0 p-0 view">
+                <div id="viewer"></div>
+                <div>
+                    <div class="table-area">
+                        <h3>Tabela</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Eixo1</th>
+                                    <th scope="col">Eixo3</th>
+                                    <th scope="col">X</th>
+                                    <th scope="col">Y</th>
+                                    <th scope="col">Z</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td class="x-value">Valor X 1</td>
+                                    <td class="y-value">Valor Y 1</td>
+                                    <td class="z-value">Valor Z 1</td>
+                                </tr>
+                                <!-- Adicione mais linhas conforme necessário -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script type = "module" src="./js/main.js"></script>
+    <script type = "module" src="./js/Programas.js"></script>
 </body>
 
 </html>

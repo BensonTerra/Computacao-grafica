@@ -1,5 +1,5 @@
 import moveAngles from "./main.js";
-import { addPoint,reset } from "./main.js";
+import { addPoint,resetModels } from "./main.js";
 import { xValue,yValue,zValue } from "./main.js";
 
 const programas = 
@@ -10,7 +10,7 @@ const programas =
   },
   {
     name: "Quadrado",
-    cord: [[1.0,-2.0],[2.0,-2.0]]
+    cord: [[4.0,-2.0],[5.0,-2.0],[4.5,-1.0]]
 
   },
 ]
@@ -52,9 +52,12 @@ criarLista()
 var isMoving = false;
 
 function move(event, data) {
-  reset()
-  let i = 0;
-  loopWithDelay(i, data);
+  if(isMoving == false) {
+    shapePoints = [0]
+    resetModels()
+    let i = 0;
+    loopWithDelay(i, data);
+  }
 }
 
 function loopWithDelay(i, data) {
@@ -74,7 +77,7 @@ function loopWithDelay(i, data) {
       isMoving = false;
 
       setTimeout(function () {
-        console.log("posição alcançada")
+        //console.log("posição alcançada")
         addPoint(xTarget,yTarget,i,data,data[i])
         loopWithDelay(i + 1, data);
       }, 500); 

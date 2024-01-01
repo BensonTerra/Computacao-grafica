@@ -228,9 +228,8 @@ function seeData(){
 }
 window.seeData = seeData
 
-const shape = new THREE.Shape();
+
 let shapePoints = []; window.shapePoints = shapePoints
-let length = null, width = null;
 
 export function addPoint(x,y,i,dataTotal,dataPartial) {
 
@@ -248,6 +247,8 @@ export function addPoint(x,y,i,dataTotal,dataPartial) {
     if (i == dataTotal.length-1)
     {
         console.log("home")
+        console.clear()
+        //console.log(shapePoints)
         countPoints()
         shapeDesign(shapePoints)
         home()
@@ -273,6 +274,7 @@ const extrudeSettings = {
 function home() {
     angleArray[0] = 0
     angleArray[1] = Math.PI
+    firtPoint = null
 }
 
 export function countPoints() {
@@ -285,8 +287,9 @@ export function countPoints() {
                 {
                     allPoints.push(object)
                 }
-                console.log(allPoints)
+                //console.log(allPoints)
             }
+            
             
         }
     
@@ -294,23 +297,15 @@ export function countPoints() {
 }
 window.countPoints = countPoints
 
-export function reset() {
-    if(allPoints.length > 0)
-    {
-        allPoints.forEach( element => scene.remove(element))
-        scene.remove(box)
-        allPoints = []
-    }
 
-}
-window.reset = reset
-
-let box = null
 function shapeDesign(arrayShape) {
-
+    const shape = new THREE.Shape();
     if(firtPoint == null)
     {
-        firtPoint = arrayShape[0];console.log(firtPoint)
+        console.log("FistPoint")
+
+        shapePoints = []; console.log("shapePoints: " + shapePoints)
+        firtPoint = arrayShape[0];console.log("firstPoint: " + firtPoint)
         let firtPointX = firtPoint[0]
         let firtPointY = firtPoint[1]
         shape.moveTo(firtPointX,firtPointY)
@@ -325,12 +320,33 @@ function shapeDesign(arrayShape) {
 
     geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
     material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    box = new THREE.Mesh( geometry, material ) ;
-    box.rotation.x = Math.PI/2
-    box.name = "shape"
-    scene.add( box );
+    var boxShape = new THREE.Mesh( geometry, material ) ;
+    boxShape.rotation.x = Math.PI/2
+    boxShape.name = "shape"
+    scene.add( boxShape );
 }
 window.shapeDesign = shapeDesign
+
+export function resetModels() {
+    console.log("resetModels")
+    if(allPoints.length > 0 || shapePoints.length > 0)
+    {
+        allPoints.forEach( element => 
+            {
+                scene.remove(element)
+                element.geometry.dispose()
+                element.material.dispose()
+                element = undefined
+            })
+        allPoints = [] ; console.log(allPoints)
+        console.log(scene.getObjectByProperty("name","shape"))
+        scene.remove(scene.getObjectByProperty("name","shape")); 
+
+    }
+
+}
+window.resetModels = resetModels
+
 
 export const xValue = document.querySelector('.x-value'); //console.log(xValue);
 export const yValue = document.querySelector('.y-value'); //console.log(yValue)
@@ -356,6 +372,8 @@ function render() {
     xValue.innerHTML = targetPosition3.x.toFixed(2)
     yValue.innerHTML = targetPosition3.y.toFixed(2)
     zValue.innerHTML = targetPosition3.z.toFixed(2)
+
+
     
     controls.update();
     renderer.render(scene, camera);
